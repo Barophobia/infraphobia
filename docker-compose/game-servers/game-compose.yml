@@ -1,0 +1,21 @@
+---
+version: "3.3"
+
+volumes:
+  factorioConfig:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.0.160,rw"
+      device: ":/mnt/media/factorio/"
+
+services:
+  factorio:
+    image: factoriotools/factorio:stable
+    network_mode: "host"
+    ports:
+      - "34197:34197/udp"
+    volumes:
+     - factorioConfig:/factorio
+    environment:
+      - INSTANCE_NAME=Cornucopia
+      - INSTANCE_DESC=Cornucopia
