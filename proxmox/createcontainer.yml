@@ -1,0 +1,20 @@
+- hosts: proxmox
+  vars_files:
+    - pass.txt
+
+  tasks:
+  - name: Create Portainer Container
+    community.general.proxmox:
+      node: vmm01
+      api_user: root@pam
+      api_password: "{{ pass_key }}"
+      api_host: '127.0.0.1'
+      password: "{{ pass_key }}"
+      hostname: Portainer
+      netif: {"net0":"name=eth0,gw=192.168.0.1,ip=192.168.0.182/24,bridge=vmbr0"}
+      ostemplate: 'local:vztmpl/debian-10-turnkey-core_16.1-1_amd64.tar.gz'
+      cores: 4
+      description: "Used to host portainer which hosts all docker containers."
+      memory: 16000
+      swap: 4192
+      unprivileged: no

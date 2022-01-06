@@ -1,0 +1,29 @@
+- hosts: proxmox
+
+  tasks:
+  - name: Create new VM with minimal options and given vmid
+    community.general.proxmox_kvm:
+     api_user: root@pam
+     api_password: Kodi1234!
+     api_host: '127.0.0.1'
+     name: DeeCee
+     node: vmm01
+     state: present
+
+  - name: Create new VM with minimal options and given vmid
+    community.general.proxmox_kvm:
+     api_user: root@pam
+     api_password: Kodi1234!
+     api_host: '127.0.0.1'
+     name: Sokal
+     node: vmm01
+     state: present
+
+  - name: Create new VM with minimal options and given vmid
+    community.general.proxmox_kvm:
+     api_user: root@pam
+     api_password: Kodi1234!
+     api_host: '127.0.0.1'
+     name: Sonjin
+     node: vmm01
+     state: present
