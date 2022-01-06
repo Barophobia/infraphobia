@@ -18,5 +18,10 @@ pip install proxmoxer
 
 - Download Debian Turnkey Core Container container template inside proxmox
 
+- Clone this repo onto the ansible controller and create a pass.txt vault file in the proxmox folder
 
+- Run the createcontainer.yml playbook
 
+```
+ansible-playbook -i host.ini -u root --ask-vault-pass createcontainer.yml
+```
