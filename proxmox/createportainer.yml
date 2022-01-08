@@ -15,7 +15,7 @@
       netif: {"net0":"name=eth0,gw=192.168.0.1,ip=192.168.0.182/24,bridge=vmbr0"}
       ostemplate: 'local:vztmpl/ubuntu-21.04-standard_21.04-1_amd64.tar.gz'
       cores: 4
-      description: "Used to host portainer which hosts all docker containers."
+      description: "Used to host portainer which hosts all dev docker containers."
       memory: 16000
       swap: 4192
       unprivileged: no
@@ -23,7 +23,7 @@
       pubkey: "{{ pub_key }}"
       features: "nesting=1"
 
-  - name: Pause for 15 seconds to finish build 
+  - name: Pause for 5 seconds to finish build 
     pause:
       seconds: 5
 
@@ -79,6 +79,10 @@
     pip:
       name: docker
 
+  - name: Install Docker Module for Python
+    pip:
+      name: docker-compose
+
   - name: Make sure docker is started
     service:
       name: docker
@@ -99,7 +103,7 @@
       restart_policy: always
       published_ports:
         - "8000:8000"
-        - "9000:9000"
+        - "9443:9443"
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
         - portainer_data:/data
