@@ -11,3 +11,8 @@
      name: DeeCee
      node: vmm01
      state: present
+     cores: 4
+     memory: 4096
+     ostype: win10
+     description: Active Directory, Domain controller.
+
