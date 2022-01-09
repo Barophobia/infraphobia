@@ -1,0 +1,13 @@
+- hosts: prodtainer
+
+  tasks:
+    - name: copy Docker Compose files
+      copy:
+        src: "{{playbook_dir}}/game-compose.yml"
+        dest: ~/
+
+    - name: deploy Docker Compose stack
+      docker_compose:
+        project_src: ~/
+        files: game-compose.yml
+        state: present

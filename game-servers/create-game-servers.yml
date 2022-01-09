@@ -1,0 +1,106 @@
+- hosts: proxmox
+  vars_files:
+    - pass.txt
+    - sshid.txt
+
+  tasks:
+  - name: Create gameserver01 Container
+    community.general.proxmox:
+      node: vmm01
+      api_user: root@pam
+      api_password: "{{ pass_key }}"
+      api_host: '127.0.0.1'
+      password: "{{ pass_key }}"
+      hostname: gameserver01
+      netif: {"net0":"name=eth0,gw=192.168.0.1,ip=192.168.0.183/24,bridge=vmbr0"}
+      ostemplate: 'local:vztmpl/ubuntu-21.04-standard_21.04-1_amd64.tar.gz'
+      cores: 4
+      description: "Used to host docker compose which hosts all prod docker containers."
+      memory: 16000
+      swap: 4192
+      unprivileged: no
+      state: present
+      pubkey: "{{ pub_key }}"
+      features: "nesting=1"
+
+  - name: Pause for 5 seconds to finish build 
+    pause:
+      seconds: 5
+
+  - name: Start container
+    community.general.proxmox:
+      hostname: gameserver01
+      api_user: root@pam
+      api_password: "{{ pass_key }}"
+      api_host: '127.0.0.1'
+      state: started
+
+
+  - name: Pause for 15 seconds to finish starting 
+    pause:
+      seconds: 15
+
+- hosts: gameserver
+  vars_files:
+    - pass.txt
+
+  tasks:
+  
+  - name: Update all packages to latest
+    apt:
+      name: "*"
+      state: latest
+
+  - name: Dist upgrade
+    apt:
+      upgrade: dist
+
+  - name: Install aptitude using apt
+    apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+  - name: Install required system packages
+    apt: name={{ item }} state=latest update_cache=yes
+    loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools', 'nfs-common']
+
+  - name: Add Docker GPG apt Key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Add Docker Repository
+    apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu bionic stable
+      state: present
+
+  - name: Update apt and install docker-ce
+    apt: update_cache=yes name=docker-ce state=latest
+
+  - name: Install Docker Module for Python
+    pip:
+      name: docker
+
+  - name: Install Docker Module for Python
+    pip:
+      name: docker-compose
+
+  - name: Make sure docker is started
+    service:
+      name: docker
+      state: started
+      enabled: yes
+
+  - name: Remove "apparmor" package
+    apt:
+      name: apparmor
+      state: absent
+
+  - name: copy Docker Compose files
+    copy:
+      src: "{{playbook_dir}}/game-compose.yml"
+      dest: ~/
+
+  - name: deploy Docker Compose stack
+    docker_compose:
+      project_src: ~/
+      files: game-compose.yml
+      state: present
