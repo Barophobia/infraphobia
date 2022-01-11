@@ -62,6 +62,22 @@
     apt: name={{ item }} state=latest update_cache=yes
     loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools', 'nfs-common']
 
+  - name: Mount an Media volume
+    ansible.posix.mount:
+      src: 192.168.1.160:/mnt/media
+      path: /mnt/media
+      opts: rw
+      state: mounted
+      fstype: nfs
+
+  - name: Mount an Backups volume
+    ansible.posix.mount:
+      src: 192.168.1.160:/mnt/backups
+      path: /mnt/backups
+      opts: rw
+      state: mounted
+      fstype: nfs
+
   - name: Add Docker GPG apt Key
     apt_key:
       url: https://download.docker.com/linux/ubuntu/gpg
