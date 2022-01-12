@@ -1,3 +1,4 @@
+#Change this hosts variable to the required host in your hosts.ini file.
 - hosts: proxmox
   vars_files:
     - pass.txt
@@ -40,6 +41,7 @@
     pause:
       seconds: 15
 
+#Change this hosts variable to the required host in your hosts.ini file.
 - hosts: gameserver
   vars_files:
     - pass.txt
