@@ -47,7 +47,13 @@ ansible-playbook -i host.ini -u root --ask-vault-pass createportainer.yml
 - Run the createportainer.yml playbook (remove --ask-vault-pass if you aren't using ansible vault variables. Hint: you should.)
 
 ```
-ansible-playbook -i host.ini -u root --ask-vault-pass create-game-servers.yml
+ansible-playbook -i host.ini -u root --ask-vault-pass create-game-servers.yml€
 ```
 
 - The server should now be built and game services up and usable.
+
+## Future plans
+
+- Add a BICEP Script to deploy on Azure 
+- Automatically download the Images for the machines without having to manually go into the proxmox GUI
+- 
