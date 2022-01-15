@@ -56,4 +56,4 @@ ansible-playbook -i host.ini -u root --ask-vault-pass create-game-servers.yml€
 
 - Add a BICEP Script to deploy on Azure 
 - Automatically download the Images for the machines without having to manually go into the proxmox GUI
-- 
+- Create a terraform script.
