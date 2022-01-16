@@ -112,7 +112,7 @@
 
   - name: copy Docker Compose files
     copy:
-      src: "{{playbook_dir}}/media-compose.yml"
+      src: "../docker/media-compose.yml"
       dest: ~/
 
   - name: deploy Docker Compose stack

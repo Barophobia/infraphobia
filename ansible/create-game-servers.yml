@@ -98,7 +98,7 @@
 
   - name: copy Docker Compose files
     copy:
-      src: "{{playbook_dir}}/game-compose.yml"
+      src: "../docker/game-compose.yml"
       dest: ~/
 
   - name: deploy Docker Compose stack
