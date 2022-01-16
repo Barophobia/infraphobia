@@ -10,4 +10,4 @@ The idea of this repo is so that if I ever need to rebuild my home infrastructur
 
 - Add a BICEP Script to deploy on Azure 
 - Automatically download the Images for the machines without having to manually go into the proxmox GUI
-- 
+- Create a terraform script.
