@@ -122,5 +122,5 @@
   - name: deploy Docker Compose stack
     docker_compose:
       project_src: ~/
-      files: game-compose.yml
+      files: media-compose.yml
       state: present
