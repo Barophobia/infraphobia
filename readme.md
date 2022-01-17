@@ -12,4 +12,3 @@ The project is broken down into application folders for example you will find th
 
 - Add a BICEP Script to deploy on Azure 
 - Automatically download the Images for the machines without having to manually go into the proxmox GUI
-- Create a terraform script.
