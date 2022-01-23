@@ -1,6 +1,8 @@
 # Infraphobia
 
-This repository holds all the IaC files I use for my infrastructure, no secrets in here so don't try
+This repository holds all the IaC files I use for my infrastructure, no secrets in here so don't try.
+
+Terraform currently doesn't work it builds devices but apt says it is insecure, this will be worked on.
 
 ## Description
 

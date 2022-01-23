@@ -1,7 +1,5 @@
 # Terraform Infraphobia
 
-
-
 ## Description
 
 This holds the terraform scripts used to deploy infrastructure.
