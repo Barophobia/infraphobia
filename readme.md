@@ -10,6 +10,9 @@ The idea of this repo is so that if I ever need to rebuild my home infrastructur
 
 The project is broken down into application folders for example you will find the ansible playbooks inside the ansible folder this is the format for all the other apps used for the project.
 
+## All in one with Terraform and Ansible
+
+
 ## Future plans
 
 - Add a BICEP Script to deploy on Azure 

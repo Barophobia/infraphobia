@@ -8,7 +8,7 @@ apt install pip
 pip install proxmoxer
 ```
 
-- Download Ubunut 21.04 container template inside proxmox
+- Download Ubuntu 21.04 container template inside proxmox
 
 - Create a hosts.ini on your ansible controller that you will use. You can see what I call my hosts in the ansible playbooks, change where required.
 
