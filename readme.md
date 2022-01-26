@@ -12,6 +12,41 @@ The project is broken down into application folders for example you will find th
 
 ## All in one with Terraform and Ansible
 
+#### Deploying using terraform
+
+- Clone the repository
+
+```
+git clone https://github.com/barophobia/infraphobia
+```
+
+- Change driectory into the terraform folder
+
+- Use terraform init to make sure the proxmox provider is working correctly
+
+```
+terraform init
+```
+
+- Change the host user information and IP addresses where required
+
+- Apply the changes
+
+```
+terraform apply
+```
+
+#### Configuring using ansible
+
+- Change directory into the ansible directory
+
+- Make sure the hosts.ini file is set to the correct IP's
+
+- Run the config yml playbooks
+
+```
+ansible-playbook -i hosts.ini -u root <YAML CONFIG FILE>
+```
 
 ## Future plans
 
