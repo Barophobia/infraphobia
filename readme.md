@@ -10,6 +10,15 @@ The idea of this repo is so that if I ever need to rebuild my home infrastructur
 
 The project is broken down into application folders for example you will find the ansible playbooks inside the ansible folder this is the format for all the other apps used for the project.
 
+
+## Network breakdown
+
+| IP | Service |
+|--- |---      |
+| 192.168.0.1 | Gateway |
+| 192.168.0.114 | Proxmox (VMM01) |
+|    |          |
+
 ## All in one with Terraform and Ansible
 
 #### Deploying using terraform
@@ -50,5 +59,4 @@ ansible-playbook -i hosts.ini -u root <YAML CONFIG FILE>
 
 ## Future plans
 
-- Add a BICEP Script to deploy on Azure 
 - Automatically download the Images for the machines without having to manually go into the proxmox GUI
