@@ -1,21 +1,17 @@
 - hosts: proxmox
-  vars_files:
-    - pass.txt
-    - sshid.txt
-
   tasks:
-  - name: Create Portainer Container
+  - name: Create media01 Container
     community.general.proxmox:
       node: vmm01
       api_user: root@pam
       api_password: "{{ pass_key }}"
       api_host: '127.0.0.1'
       password: "{{ pass_key }}"
-      hostname: Portainer
-      netif: {"net0":"name=eth0,gw=192.168.0.1,ip=192.168.0.182/24,bridge=vmbr0"}
+      hostname: media01
+      netif: {"net0":"name=eth0,gw=192.168.0.1,ip=192.168.0.184/24,bridge=vmbr0"}
       ostemplate: 'local:vztmpl/ubuntu-21.04-standard_21.04-1_amd64.tar.gz'
       cores: 4
-      description: "Used to host portainer which hosts all dev docker containers."
+      description: "Used to host media containers."
       memory: 16000
       swap: 4192
       unprivileged: no
@@ -29,7 +25,7 @@
 
   - name: Start container
     community.general.proxmox:
-      hostname: Portainer
+      hostname: media01
       api_user: root@pam
       api_password: "{{ pass_key }}"
       api_host: '127.0.0.1'
@@ -40,10 +36,7 @@
     pause:
       seconds: 15
 
-- hosts: portainer
-  vars_files:
-    - pass.txt
-
+- hosts: media
   tasks:
   
   - name: Update all packages to latest
@@ -61,6 +54,26 @@
   - name: Install required system packages
     apt: name={{ item }} state=latest update_cache=yes
     loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools', 'nfs-common']
+
+  - name: mount the media share
+    mount:
+      fstype: nfs
+      opts: defaults
+      dump: 0
+      passno: 0
+      state: mounted
+      src: 192.168.0.160:/mnt/media
+      path: "/mnt/media"
+
+  - name: mount the backups share
+    mount:
+      fstype: nfs
+      opts: defaults
+      dump: 0
+      passno: 0
+      state: mounted
+      src: 192.168.0.160:/mnt/backups
+      path: "/mnt/backups"
 
   - name: Add Docker GPG apt Key
     apt_key:
@@ -94,16 +107,13 @@
       name: apparmor
       state: absent
 
-  - name: Create portainer container
-    docker_container:
-      name: portainer
-      image: portainer/portainer-ce:latest
-      state: started
-      recreate: yes
-      restart_policy: always
-      published_ports:
-        - "8000:8000"
-        - "9443:9443"
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-        - portainer_data:/data
+  - name: copy Docker Compose files
+    copy:
+      src: "./media-compose.yml"
+      dest: ~/
+
+  - name: deploy Docker Compose stack
+    docker_compose:
+      project_src: ~/
+      files: media-compose.yml
+      state: present

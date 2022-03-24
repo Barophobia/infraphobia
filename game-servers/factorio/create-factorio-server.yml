@@ -1,5 +1,44 @@
 #Change this hosts variable to the required host in your hosts.ini file.
-- hosts: gameserver
+- hosts: proxmox
+  tasks:
+  - name: Create gameserver01 Container
+    community.general.proxmox:
+      node: vmm01
+      api_user: root@pam
+      api_password: "{{ pass_key }}"
+      api_host: '127.0.0.1'
+      password: "{{ pass_key }}"
+      hostname: factorioGS
+      netif: {"net0":"name=eth0,gw=192.168.0.1,ip=192.168.0.183/24,bridge=vmbr0"}
+      ostemplate: 'local:vztmpl/ubuntu-21.04-standard_21.04-1_amd64.tar.gz'
+      cores: 4
+      description: "Factorio Game Server."
+      memory: 4096
+      swap: 4192
+      unprivileged: no
+      state: present
+      pubkey: "{{ pub_key }}"
+      features: "nesting=1"
+
+  - name: Pause for 5 seconds to finish build 
+    pause:
+      seconds: 5
+
+  - name: Start container
+    community.general.proxmox:
+      hostname: factorioGS
+      api_user: root@pam
+      api_password: "{{ pass_key }}"
+      api_host: '127.0.0.1'
+      state: started
+
+
+  - name: Pause for 15 seconds to finish starting 
+    pause:
+      seconds: 15
+
+#Change this hosts variable to the required host in your hosts.ini file.
+- hosts: factorioGS
 
   tasks:
   
@@ -53,11 +92,11 @@
 
   - name: copy Docker Compose files
     copy:
-      src: "../docker/game-compose.yml"
+      src: "./factorio-compose.yml"
       dest: ~/
 
   - name: deploy Docker Compose stack
     docker_compose:
       project_src: ~/
-      files: game-compose.yml
+      files: factorio-compose.yml
       state: present
