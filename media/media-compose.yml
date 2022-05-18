@@ -2,16 +2,6 @@
 version: "2.1"
 
 volumes:
-  qbittorrentConfig:
-    driver_opts:
-      type: "nfs"
-      o: "addr=192.168.0.160,rw"
-      device: ":/mnt/media/qbittorrent/config"
-  qbittorrentDownloads:
-    driver_opts:
-      type: "nfs"
-      o: "addr=192.168.0.160,rw"
-      device: ":/mnt/media/qbittorrent/downloads"
   plexMovies:
     driver_opts:
       type: "nfs"
@@ -37,6 +27,21 @@ volumes:
       type: "nfs"
       o: "addr=192.168.0.160,rw"
       device: ":/mnt/media/jackett/config"
+  transConfig:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.0.160,rw"
+      device: ":/mnt/media/transmission/config"
+  transDownloads:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.0.160,rw"
+      device: ":/mnt/media/transmission/downloads"
+  transWatch:
+    driver_opts:
+      type: "nfs"
+      o: "addr=192.168.0.160,rw"
+      device: ":/mnt/media/transmission/watch"
 
 services:
   jackett:
@@ -83,20 +88,20 @@ services:
     ports:
       - 8989:8989
     restart: unless-stopped
-
-  qbittorrent:
-    image: lscr.io/linuxserver/qbittorrent
-    container_name: qbittorrent
+    
+  transmission:
+    image: lscr.io/linuxserver/transmission:latest
+    container_name: transmission
     environment:
       - PUID=0
       - PGID=0
       - TZ=Europe/London
-      - WEBUI_PORT=8080
     volumes:
-      -  qbittorrentConfig:/config
-      -  qbittorrentDownloads:/downloads
+      - transConfig:/config
+      - transDownloads:/downloads
+      - transWatch:/watch
     ports:
-      - 6881:6881
-      - 6881:6881/udp
-      - 8080:8080
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
     restart: unless-stopped
