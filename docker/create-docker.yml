@@ -1,19 +1,19 @@
 - hosts: proxmox
   tasks:
-  - name: Create media01 Container
+  - name: Create docker Container
     community.general.proxmox:
       node: vmm01
       api_user: root@pam
       api_password: "{{ pass_key }}"
       api_host: '127.0.0.1'
       password: "{{ pass_key }}"
-      hostname: media01
+      hostname: docker
       netif: {"net0":"name=eth0,gw=192.168.0.1,ip=192.168.0.184/24,bridge=vmbr0"}
       ostemplate: 'local:vztmpl/ubuntu-21.04-standard_21.04-1_amd64.tar.gz'
       cores: 4
-      description: "Used to host media containers."
+      description: "Hosts docker containers."
       memory: 16000
-      swap: 4192
+      swap: 8192
       unprivileged: no
       state: present
       pubkey: "{{ pub_key }}"
@@ -25,18 +25,17 @@
 
   - name: Start container
     community.general.proxmox:
-      hostname: media01
+      hostname: docker
       api_user: root@pam
       api_password: "{{ pass_key }}"
       api_host: '127.0.0.1'
       state: started
 
-
   - name: Pause for 15 seconds to finish starting 
     pause:
       seconds: 15
 
-- hosts: media
+- hosts: docker
   tasks:
   
   - name: Update all packages to latest
@@ -53,27 +52,7 @@
 
   - name: Install required system packages
     apt: name={{ item }} state=latest update_cache=yes
-    loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools', 'nfs-common']
-
-  - name: mount the media share
-    mount:
-      fstype: nfs
-      opts: defaults
-      dump: 0
-      passno: 0
-      state: mounted
-      src: 192.168.0.160:/mnt/media
-      path: "/mnt/media"
-
-  - name: mount the backups share
-    mount:
-      fstype: nfs
-      opts: defaults
-      dump: 0
-      passno: 0
-      state: mounted
-      src: 192.168.0.160:/mnt/backups
-      path: "/mnt/backups"
+    loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
 
   - name: Add Docker GPG apt Key
     apt_key:
@@ -109,7 +88,7 @@
 
   - name: copy Docker Compose files
     copy:
-      src: "./media-compose.yml"
+      src: "./docker-compose.yml"
       dest: ~/
 
   - name: deploy Docker Compose stack
