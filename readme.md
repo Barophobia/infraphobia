@@ -12,6 +12,7 @@ The idea of this repo is so that if I ever need to rebuild my home infrastructur
 |--- |---      |
 | 192.168.0.1 | Gateway |
 | 192.168.0.11 | Domain Controller |
+| 192.168.0.100 | Prometheus/Grafana |
 | 192.168.0.114 | Proxmox (VMM01) |
 | 192.168.0.122 | Docker Host |
 
@@ -21,6 +22,8 @@ The idea of this repo is so that if I ever need to rebuild my home infrastructur
 |---|---|---|
 | 8123 | HomeAssistant | 0.122 |
 | 8080 | Heimdall | 0.122 |
+| 9090 | Prometheus | 0.100 |
+| 3000 | Grafana | 0.100 |
 
 #### Configuring using ansible
 
