@@ -31,7 +31,7 @@ The idea of this repo is so that if I ever need to rebuild my home infrastructur
 - Run the config yml playbooks
 
 ```
-ansible-playbook -i hosts.ini -u root <YAML CONFIG FILE>
+ansible-playbook -i hosts.ini -u root <YAML CONFIG FILE> -kK
 ```
 
 ## Future plans
