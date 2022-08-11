@@ -11,21 +11,16 @@ The idea of this repo is so that if I ever need to rebuild my home infrastructur
 | IP | Service |
 |--- |---      |
 | 192.168.0.1 | Gateway |
-| 192.168.0.113 | Pi |
+| 192.168.0.11 | Domain Controller |
 | 192.168.0.114 | Proxmox (VMM01) |
-| 192.168.0.115 | Proxmox 2 / NAS |
-| 192.168.0.122 | Portainer/Docker Host |
-| 192.168.0.160 | TrueNAS |
+| 192.168.0.122 | Docker Host |
 
 ## Service Breakdown
 
 | Port | Service | Host |
 |---|---|---|
-| 9443 | Portainer | 0.122 |
-| 9117 | Jackett | 0.122 |
-| 7878 | Radarr | 0.122 |
-| 8989 | Sonarr | 0.122 |
-| 8080 | qBitTorrent | 0.122 |
+| 8123 | HomeAssistant | 0.122 |
+| 8080 | Heimdall | 0.122 |
 
 #### Configuring using ansible
 
