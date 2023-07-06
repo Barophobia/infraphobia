@@ -1,10 +1,11 @@
 ---
-version: "2.1"
+version: "3.3"
 
 services:
   homeassistant:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
+    user: '0'
     volumes:
       - /home/barophobia/docker/homeass/config:/config
       - /etc/localtime:/etc/localtime:ro
@@ -15,6 +16,7 @@ services:
   prometheus:
     image: prom/prometheus
     container_name: prometheus
+    user: '0'
     volumes:
       - /home/barophobia/docker/prometheus/etc:/etc/prometheus/
       - /home/barophobia/docker/prometheus/data:/prometheus
@@ -30,6 +32,7 @@ services:
   node-exporter:
     image: prom/node-exporter
     container_name: node-exporter
+    user: '0'
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
@@ -46,7 +49,7 @@ services:
   grafana:
     image: grafana/grafana
     container_name: grafana
-    user: '1000'
+    user: '0'
     restart: unless-stopped
     environment:
       GF_INSTALL_PLUGINS: 'grafana-clock-panel,grafana-simple-json-datasource'
