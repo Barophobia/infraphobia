@@ -1,18 +1,7 @@
 ---
 version: "3.3"
 
-services:
-  homeassistant:
-    container_name: homeassistant
-    image: "ghcr.io/home-assistant/home-assistant:stable"
-    user: '0'
-    volumes:
-      - /home/barophobia/docker/homeass/config:/config
-      - /etc/localtime:/etc/localtime:ro
-    restart: unless-stopped
-    privileged: true
-    network_mode: host  
-
+services: 
   prometheus:
     image: prom/prometheus
     container_name: prometheus
