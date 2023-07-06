@@ -8,7 +8,7 @@ The idea of this repo is so that if I ever need to rebuild my home infrastructur
 
 ## Deployment
 
-Deploy portainer and then deploy prod_stack inside of portainer.
+Deploy portainer and then deploy the stack required inside of portainer.
 
 ## Network breakdown
 
