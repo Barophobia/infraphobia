@@ -11,8 +11,8 @@ services:
       - TZ=Etc/UTC
       - WEBUI_PORT=8080
     volumes:
-      - /home/barophobia/docker/qbittorrent/config:/config
-      - /home/barophobia/docker/qbittorrent/downloads:/downloads
+      - /mnt/hd/docker/qbittorrent/config:/config
+      - /mnt/hd/Downloads:/downloads
     ports:
       - 8080:8080
       - 6881:6881
@@ -27,7 +27,7 @@ services:
       - PGID=0
       - TZ=Etc/UTC
     volumes:
-      - /home/barophobia/docker/prowlarr/config:/config
+      - /mnt/hd/docker/prowlarr/config:/config
     ports:
       - 9696:9696
     restart: unless-stopped
@@ -52,9 +52,9 @@ services:
       - TZ=Europe/London
       - HOSTNAME=”PlexServer”
     volumes:
-      - /home/barophobia/docker/plex/config:/config
-      - /home/barophobia/docker/plex/transcodes:/transcode
-      - /home/barophobia/docker/plex/media:/media
+      - /mnt/hd/docker/plex/config:/config
+      - /mnt/hd/docker/plex/transcodes:/transcode
+      - /mnt/hd/docker/plex/media:/media
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
@@ -64,7 +64,24 @@ services:
       - PGID=0
       - TZ=Etc/UTC
     volumes:
-      - /home/barophobia/docker/radarr/config:/config
+      - /mnt/hd/docker/radarr/config:/config
+      - /mnt/hd/Movies:/movies
+      - /mnt/hd/Downloads:/downloads
     ports:
       - 7878:7878
+    restart: unless-stopped
+
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=Etc/UTC
+    volumes:
+      - /mnt/hd/docker/sonarr/config:/config
+      - /mnt/hd/tv:/tv #optional
+      - /mnt/hd/Downloads:/downloads #optional
+    ports:
+      - 8989:8989
     restart: unless-stopped
