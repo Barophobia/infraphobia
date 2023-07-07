@@ -54,7 +54,7 @@ services:
     volumes:
       - /mnt/hd/docker/plex/config:/config
       - /mnt/hd/docker/plex/transcodes:/transcode
-      - /mnt/hd/docker/plex/media:/media
+      - /mnt/hd:/media
 
   radarr:
     image: lscr.io/linuxserver/radarr:latest
